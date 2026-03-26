@@ -1,11 +1,72 @@
-import React from 'react'
+"use client";
+import React from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler } from "react-hook-form";
+import { schema } from "../Type";
+import { useForm } from "react-hook-form";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/router";
+import axios from "axios";
+type user = z.infer<typeof schema>;
+const page = () => {
+    const router = useRouter()
+  const {
+    register,
+    formState: { errors, isSubmitting },
+    handleSubmit,
+  } = useForm<user>({
+    resolver: zodResolver(schema),
+  });
 
-const ResetPass = () => {
+  const { token } = useParams();
+
+  const SubmitForm: SubmitHandler<user> = async (data)  => {
+    try {
+      const  response = await axios.post("/api/Auth/reset-password" , {data , token})
+      
+      router.push("/Login")
+    } catch (error) {
+      
+    }
+  };
+
   return (
-    <div>
-        
+    <div className="w-full min-h-screen bg-gray-200 flex  justify-center items-center px-5 ">
+      <div className=" w-12/12 lg:w-5/12 md:w-7/12 sm:w-9/12 bg-white p-10 rounded-lg ">
+        <div className="w-full">
+          <h1 className="text-4xl font-semibold">Reset Password</h1>
+        </div>
+        <form action="" className="mt-3" onSubmit={handleSubmit(SubmitForm)}>
+          <div className="w-full mb-4 flex flex-col space-y-2">
+            <label htmlFor="" className="text-md font-semibold">
+              Email
+            </label>
+            <Input
+              className="h-10 border-2"
+              {...register("password")}
+              type="text"
+              placeholder="Enter the email to sent link"
+            />
+            {errors.password && (
+              <p className="text-red-400 font-semibold">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+          
+          <div className="w-full mb-4 flex justify-center items-center flex-col">
+            <Button className="w-30 font-semibold text-lg h-10" type="submit" disabled={isSubmitting} >{ isSubmitting? "Reseting..":"Reset Password"}</Button>
+           
+          </div>
+        </form>
+      </div>
+      {}
     </div>
-  )
-}
+  );
+};
 
-export default ResetPass
+export default page;

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -8,9 +8,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { schema } from "../Type";
 import axios from "axios";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CheckCircle2Icon, InfoIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 
 type user = z.infer<typeof schema>;
 const page = () => {
+  const [Alerts, setAlert] = useState<string>("");
+  const router = useRouter()
   const {
     register,
     formState: { errors, isSubmitting },
@@ -19,12 +25,22 @@ const page = () => {
     resolver: zodResolver(schema),
   });
 
+  useEffect(() => {
+    if (!Alerts) return; // don't run if empty
+
+    const timer = setTimeout(() => {
+      setAlert("");
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [Alerts]);
+
   const SubmitForm: SubmitHandler<user> = async (data) => {
     try {
       const respone = await axios.post("/api/Auth/Signup", data);
-       alert(respone.data.message)
-    } catch (error:any) {
-      alert(error?.response?.data?.message || "Something went wrong");
+      router.push("/Login")
+    } catch (error: any) {
+      setAlert(error?.response?.data?.message || "Something went wrong");
     }
   };
 
@@ -101,6 +117,21 @@ const page = () => {
             </div>
           </div>
         </form>
+      </div>
+      <div
+        className={`absolute right-2 top-140 transform transition-transform duration-500 ${
+          Alerts ? "-translate-x-5" : "translate-x-0"
+        }`}
+      >
+        {Alerts && (
+          <Alert className="p-2 w-52 flex items-center gap-2">
+            <InfoIcon size={30} color="red" />
+
+            <AlertTitle className={`font-semibold text-red-600`}>
+              {Alerts}
+            </AlertTitle>
+          </Alert>
+        )}
       </div>
     </div>
   );

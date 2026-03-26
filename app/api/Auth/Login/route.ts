@@ -30,7 +30,7 @@ export async function POST(req: Request) {
   }
 
   const token = jwt.sign(
-    { id: user.id, name: user.username },
+    { id: user.id, name: user.username , role: user.Role },
     process.env.JWT_SECRET!,
     { expiresIn: "10d" },
   );
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
   return NextResponse.json(
     {
       message: "Login successful",
-      user: { id: user.id, username: user.username },
+      user: { id: user.id, username: user.username , role: user.Role  },
     },
     { status: 200, headers: { "Set-Cookie": cookie } },
   );

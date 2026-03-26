@@ -10,11 +10,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { schema } from "../Type";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CheckCircle2Icon, InfoIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type user = z.infer<typeof schema>;
 
 const Page = () => {
- 
+  const [Alerts, setAlert] = useState<string>("");
+  const router = useRouter();
   const {
     register,
     formState: { errors, isSubmitting },
@@ -23,17 +25,28 @@ const Page = () => {
     resolver: zodResolver(schema),
   });
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAlert("");
+    }, 2000);
 
+    return () => clearTimeout(timer);
+  }, [Alerts]);
   const SubmitForm: SubmitHandler<user> = async (data) => {
     try {
       const response = await axios.post("api/Auth/Login", data, {
         withCredentials: true, // ✅ IMPORTANT for cookies
       });
 
-      setAlert(response.data.message);
+      // setAlert(response.data.message);
 
       // ✅ optional: redirect after login
       // window.location.href = "/dashboard";
+      if (response.data.user.role == "guest") {
+        router.push("/guest");
+      } else {
+        router.push("/Admin");
+      }
     } catch (error: any) {
       setAlert(error?.response?.data?.message || "Something went wrong");
     }
@@ -45,7 +58,6 @@ const Page = () => {
         <div className="w-full">
           <h1 className="text-4xl font-semibold">Login account</h1>
         </div>
-
         <form className="mt-3" onSubmit={handleSubmit(SubmitForm)}>
           {/* Email */}
           <div className="w-full mb-4 flex flex-col space-y-2">
@@ -106,9 +118,22 @@ const Page = () => {
             </div>
           </div>
         </form>
-        <div></div>
+        <div
+          className={`absolute right-2 top-20 transition-opacity duration-500 ${
+            Alerts ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          {Alerts && (
+            <Alert className="p-2 w-52 flex items-center gap-2">
+              <InfoIcon size={30} color="red" />
+
+              <AlertTitle className={`font-semibold text-red-600`}>
+                {Alerts}
+              </AlertTitle>
+            </Alert>
+          )}
+        </div>
       </div>
-     
     </div>
   );
 };

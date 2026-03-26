@@ -42,7 +42,13 @@ export default async function POST(req: Request) {
     await transporter.sendMail({
         from : process.env.EMAIL_USER,
         to:Email,
-        subject : "Reset your password"
+        subject : "Reset your password",
+        html : `<p>Click the link to reset your password:</p> 
+                 <a href="${resetLink}">${resetLink}</a>`
     })
-  } catch (error) {}
+
+    return  Response.json({message : "Reset link sent your email "} , {status : 200})
+  } catch (error) {
+    return Response.json({message : "Something went wrong"} , {status : 500})
+  }
 }
