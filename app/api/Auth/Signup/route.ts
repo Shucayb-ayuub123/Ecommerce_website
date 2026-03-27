@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const [rows] = await pool.execute("SELECT * FROM users WHERE username = ?", [
+  const [rows]:any = await pool.execute("SELECT * FROM users WHERE username = ?", [
     username,
   ]);
 

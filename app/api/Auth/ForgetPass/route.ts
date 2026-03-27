@@ -1,14 +1,14 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse , NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { pool } from "@/lib/db";
-import { EMPTY_PATH } from "zod/v3";
 
-export default async function POST(req: Request) {
+
+export  async function POST(req: Request) {
   const { Email } = await req.json();
 
   if (!Email) {
-    return Response.json({ message: "Email is require" }, { status: 400 });
+    return NextResponse.json({ message: "Email is require" }, { status: 400 });
   }
 
   try {
@@ -18,14 +18,14 @@ export default async function POST(req: Request) {
     );
 
     if (!user[0]) {
-      return Response.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     const secret = process.env.JWT_SECRET || "secret";
 
     const token = jwt.sign({ id: user[0].id }, secret, { expiresIn: "15m" });
 
-    const resetLink = `http://localhost:3000/app/reset-password/${token}`
+    const resetLink = `http://localhost:3000/reset-password/${token}`
 
     const transporter = nodemailer.createTransport({
         host : "smtp.gmail.com",
@@ -47,8 +47,8 @@ export default async function POST(req: Request) {
                  <a href="${resetLink}">${resetLink}</a>`
     })
 
-    return  Response.json({message : "Reset link sent your email "} , {status : 200})
+    return  NextResponse.json({message : "Reset link sent your email "} , {status : 200})
   } catch (error) {
-    return Response.json({message : "Something went wrong"} , {status : 500})
+    return NextResponse.json({message : "Something went wrong"} , {status : 500})
   }
 }
