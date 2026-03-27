@@ -1,12 +1,9 @@
 import React from 'react'
 
-const Guestlayout = ({children} : {children : React.ReactNode}) => {
+const layout = ({children} : {children:React.ReactNode}) => {
   return (
-    <div>
-        
-      {children}
-    </div>
+    <div>{children}</div>
   )
 }
 
-export default Guestlayout
+export default layout

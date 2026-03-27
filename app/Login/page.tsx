@@ -34,18 +34,18 @@ const Page = () => {
   }, [Alerts]);
   const SubmitForm: SubmitHandler<user> = async (data) => {
     try {
-      const response = await axios.post("api/Auth/Login", data, {
+      const response = await axios.post("/api/Auth/Login", data, {
         withCredentials: true, // ✅ IMPORTANT for cookies
       });
 
-      // setAlert(response.data.message);
+      const role = response.data.role;
+        console.log(role)
+      if (role == "guest") {
+        return  router.push("/guest");
+      }
 
-      // ✅ optional: redirect after login
-      // window.location.href = "/dashboard";
-      if (response.data.user.role == "guest") {
-        router.push("/guest");
-      } else {
-        router.push("/Admin");
+      if (role == "Admin") {
+        return router.push("/Admin");
       }
     } catch (error: any) {
       setAlert(error?.response?.data?.message || "Something went wrong");
@@ -124,10 +124,10 @@ const Page = () => {
           }`}
         >
           {Alerts && (
-            <Alert className="p-2 w-52 flex items-center gap-2">
-              <InfoIcon size={30} color="red" />
+            <Alert className="p-2 w-57 flex items-center gap-2">
+              <InfoIcon size={35} color="red" />
 
-              <AlertTitle className={`font-semibold text-red-600`}>
+              <AlertTitle className={`font-semibold text-red-600 text-md`}>
                 {Alerts}
               </AlertTitle>
             </Alert>
