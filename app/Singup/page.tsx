@@ -11,12 +11,13 @@ import axios from "axios";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CheckCircle2Icon, InfoIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import { EyeClosed, Eye } from "lucide-react";
 
 type user = z.infer<typeof schema>;
 const page = () => {
   const [Alerts, setAlert] = useState<string>("");
-  const router = useRouter()
+  const [showPass, setShowPass] = useState<boolean>(true);
+  const router = useRouter();
   const {
     register,
     formState: { errors, isSubmitting },
@@ -38,7 +39,7 @@ const page = () => {
   const SubmitForm: SubmitHandler<user> = async (data) => {
     try {
       const respone = await axios.post("/api/Auth/Signup", data);
-      router.push("/Login")
+      router.push("/Login");
     } catch (error: any) {
       setAlert(error?.response?.data?.message || "Something went wrong");
     }
@@ -83,16 +84,19 @@ const page = () => {
               </p>
             )}
           </div>
-          <div className="w-full mb-4 flex flex-col space-y-2">
+          <div className="w-full mb-4 relative flex flex-col space-y-2 ">
             <label htmlFor="" className="text-md font-semibold">
               password
             </label>
             <Input
               {...register("password")}
               className="h-10 border-2"
-              type="password"
+              type={showPass ? "password" : "text"}
               placeholder="Password"
             />
+
+            <div className="absolute right-2 top-10" onClick={() => setShowPass((prev)=> !prev)}>{showPass ? <EyeClosed /> : <Eye />}</div>
+
             {errors.password && (
               <p className="text-red-400 font-semibold">
                 {errors.password.message}

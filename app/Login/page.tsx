@@ -11,12 +11,13 @@ import { schema } from "../Type";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { CheckCircle2Icon, InfoIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import { EyeClosed , Eye } from "lucide-react";
 type user = z.infer<typeof schema>;
 
 const Page = () => {
   const [Alerts, setAlert] = useState<string>("");
   const router = useRouter();
+    const [showPass, setShowPass] = useState<boolean>(true);
   const {
     register,
     formState: { errors, isSubmitting },
@@ -76,14 +77,16 @@ const Page = () => {
           </div>
 
           {/* Password */}
-          <div className="w-full mb-4 flex flex-col space-y-2">
+          <div className="w-full mb-4  relative flex flex-col space-y-2">
             <label className="text-md font-semibold">Password</label>
             <Input
               className="h-10 border-2"
               {...register("password")}
-              type="password"
+              type={showPass ? "password" : "text"}
               placeholder="Password"
             />
+            <div className="absolute right-2 top-10" onClick={() => setShowPass((prev)=> !prev)}>{showPass ? <EyeClosed /> : <Eye />}</div>
+
             {errors.password && (
               <p className="text-red-400 font-semibold">
                 {errors.password.message}

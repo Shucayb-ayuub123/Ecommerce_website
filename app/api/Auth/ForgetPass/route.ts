@@ -6,7 +6,7 @@ import { pool } from "@/lib/db";
 
 export  async function POST(req: Request) {
   const { Email } = await req.json();
-
+    console.log("Email"  , Email)
   if (!Email) {
     return NextResponse.json({ message: "Email is require" }, { status: 400 });
   }

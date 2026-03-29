@@ -6,16 +6,15 @@ const page = () => {
   return (
     <div className="flex justify-center items-center">
       <div className="mx-100 mt-10">
-        <div className="flex flex-col justify-center w-full mt-5">
+        <div className="flex flex-col justify-center relative w-full  h-[400px]">
           <Image
             src={"/Assets/clothes1.jpg"}
             alt=""
-            width={"500"}
-            height={"500"}
-            className="rounded-lg px-2 w-full"
+            fill
+            className="rounded-lg px-2 object-cover"
           />
-          <h1 className="text-2xl mt-5 font-semibold">clasic</h1>
         </div>
+          <h1 className="text-2xl mt-10 font-semibold">clasic</h1>  
 
         <div className="mt-4">
           <p className="font-medium text-gray-600">

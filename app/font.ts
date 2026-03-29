@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import { Roboto } from "next/font/google";
 export const Poppin = Poppins({
     subsets : ['latin'],
-    weight : "300"
+    weight : "800"  
 }) 
 export const Robotos = Roboto({
     subsets : ['latin'],

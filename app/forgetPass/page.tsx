@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState ,useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -9,8 +9,19 @@ import { SubmitHandler } from "react-hook-form";
 import { schema } from "../Type";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { CheckCircle2Icon, InfoIcon } from "lucide-react";
 type user = z.infer<typeof schema>;
 const page = () => {
+  const [Alerts, setAlert] = useState<string>("");
+
+  useEffect(() => {
+  if (Alerts) {
+    const timer = setTimeout(() => setAlert(""), 3000);
+    return () => clearTimeout(timer);
+  }
+}, [Alerts]);
+
   const {
     register,
     formState: { errors, isSubmitting },
@@ -19,12 +30,13 @@ const page = () => {
     resolver: zodResolver(schema),
   });
 
-  const SubmitForm: SubmitHandler<user> = async (data)  => {
+  const SubmitForm: SubmitHandler<user> = async (data) => {
     try {
-      const  response = await axios.post("api/Auth/ForgetPass" , data)
-      
-    } catch (error) {
-      
+      const response = await axios.post("/api/Auth/ForgetPass", data);
+      console.log("first")
+      setAlert(response.data.message);
+    } catch (error: any) {
+      setAlert(error?.response?.data?.message || "Something wrong");
     }
   };
 
@@ -51,12 +63,30 @@ const page = () => {
               </p>
             )}
           </div>
-          
+
           <div className="w-full mb-4 flex justify-center items-center flex-col">
-            <Button className="w-30 font-semibold text-lg h-10" type="submit" disabled={isSubmitting} >{ isSubmitting? "loading..":"Reset"}</Button>
-           
+            <Button
+              className="w-30 font-semibold text-lg h-10"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "loading.." : "Reset"}
+            </Button>
           </div>
         </form>
+      </div>
+      <div
+        className={`absolute right-2 top-20 transition-opacity duration-500 ${
+          Alerts ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        {Alerts && (
+          <Alert className="p-2 w-57 flex items-center gap-2">
+            <AlertTitle className={`font-semibold text-black text-md`}>
+              {Alerts}
+            </AlertTitle>
+          </Alert>
+        )}
       </div>
     </div>
   );
