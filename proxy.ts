@@ -21,8 +21,12 @@ export function proxy(req: NextRequest) {
 
     const role = decoded.role
 
-    if (role == "Admin" && pathname !== "/Admin") {
-      return NextResponse.redirect(new URL("/Admin", req.url));
+    // if (role == "Admin" && pathname !== "/Admin") {
+    //   return NextResponse.redirect(new URL("/Admin", req.url));
+    // }
+  
+      if (role === "Admin") {
+      return NextResponse.next();
     }
 
     if (role == "guest" && pathname !== "/guest") {
