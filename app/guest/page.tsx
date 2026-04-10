@@ -35,7 +35,7 @@ const page = () => {
 
       {/* Shop by Category */}
 
-      <div className="mb-10">
+      <div className="mb-10 animate-in fade-in-10 slide-in-from-bottom-10 duration-500">
         <h1 className="text-center font-bold text-3xl mb-7">
           Shop by Category
         </h1>
@@ -71,17 +71,19 @@ const page = () => {
         </Link>
       </div>
       {/* Cards */}
-      <div className="ml-30 grid grid-cols-4">
+      <div className="ml-30 grid grid-cols-4  animate-in fade-in-10 slide-in-from-bottom-10 duration-500">
         <div className="relative">
           <div className="w-[300px] h-[300px] shadow-xl rounded-2xl overflow-hidden">
-            <img
+            <Image
               src="/Assets/b1 (11).jpg"
               className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 shadow-lg"
               alt=""
+              width={300}
+              height={300}
             />
           </div>
 
-          <div className="absolute top-2 right-20">
+          <div className="absolute top-2 right-20 bg-white p-1 rounded-2xl">
             <Heart />
           </div>
 
@@ -92,15 +94,17 @@ const page = () => {
           </div>
         </div>
         <div className="relative">
-         <div className="w-[300px] h-[300px] shadow-xl rounded-2xl overflow-hidden">
-  <img
-    src="/Assets/b1 (9).jpg"
-    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 shadow-lg"
-    alt=""
-  />
-</div>
+          <div className="w-[300px] h-[300px] shadow-xl rounded-2xl overflow-hidden">
+            <Image
+              src="/Assets/b1 (9).jpg"
+              className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 shadow-lg"
+              alt=""
+              width={300}
+              height={300}
+            />
+          </div>
 
-          <div className="absolute top-2 right-20">
+          <div className="absolute top-2 right-20 bg-white p-1 rounded-2xl">
             <Heart />
           </div>
 
@@ -111,15 +115,17 @@ const page = () => {
           </div>
         </div>
         <div className="relative">
-         <div className="w-[300px] h-[300px] shadow-xl rounded-2xl overflow-hidden">
-  <img
-    src="/Assets/b1 (5).jpg"
-    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 shadow-lg"
-    alt=""
-  />
-</div>
+          <div className="w-[300px] h-[300px] shadow-xl rounded-2xl overflow-hidden">
+            <Image
+              src="/Assets/b1 (5).jpg"
+              className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 shadow-lg"
+              alt=""
+              width={300}
+              height={300}
+            />
+          </div>
 
-          <div className="absolute top-2 right-20">
+          <div className="absolute top-2 right-20 bg-white p-1 rounded-2xl">
             <Heart />
           </div>
 
@@ -131,14 +137,16 @@ const page = () => {
         </div>
         <div className="relative">
           <div className="w-[300px] h-[300px] shadow-xl rounded-2xl overflow-hidden">
-  <img
-    src="/Assets/b1 (20).jpg"
-    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 shadow-lg"
-    alt=""
-  />
-</div>
+            <Image
+              src="/Assets/b1 (20).jpg"
+              className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 shadow-lg"
+              alt=""
+              width={300}
+              height={300}
+            />
+          </div>
 
-          <div className="absolute top-2 right-20">
+          <div className="absolute top-2 right-20 bg-white p-1 rounded-2xl">
             <Heart />
           </div>
 

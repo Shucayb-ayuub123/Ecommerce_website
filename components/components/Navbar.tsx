@@ -21,9 +21,9 @@ const Navbar = () => {
                 </ul>
 
                 <ul className='flex gap-4'>
-                    <Link href={"/"}><Search  size={20} /></Link>
-                    <Link href={"/shop"}><Heart size={20}/></Link>
-                    <Link href={"/shop"}><ShoppingCart size={20}/></Link>
+                    <Link href={"/guest/Shop"}><Search  size={20} /></Link>
+                    <Link href={"/guest/WhishList"}><Heart size={20}/></Link>
+                    <Link href={"/guest/Cart"}><ShoppingCart size={20}/></Link>
 
                 </ul>
             </div>
